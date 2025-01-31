@@ -84,12 +84,12 @@ I am a **data-driven strategist** with a background in Biomedical & Electrical E
 **Tools**: Excel, Power BI  
 **Business Question**: *Is there a correlation between holiday season and employees requesting paid leave?*  
 
-<details>
-<summary><strong>View Project Details</strong></summary>
-  
 ![Image](https://github.com/user-attachments/assets/62608acf-fb7d-4b83-8427-d31921a5e508)
 
 [View Report →](https://docs.google.com/presentation/d/e/2PACX-1vT461tTEEk4SbjUZKrIXnpCsTqfjlsU6NuRkpZcQ4PBQBPJpPteckU5fzRmKF8GldH7pGDr_mGJCjBX/pub?start=true&loop=false&delayms=60000&slide=id.gc6fa3c898_0_0)
+
+<details>
+<summary><strong>View Project Details</strong></summary>
 
 #### **Insights**:  
 - Annual leave spikes around Eid reduced workforce by **35%** (May 2023).  
