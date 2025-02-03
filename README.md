@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/6fb2eadc-e271-4326-9c9d-dea4a1827452)# Farrel Fajar | Data Analyst Portfolio
+# Farrel Fajar | Data Analyst Portfolio
 
 🔗 **LinkedIn**: [Connect with me](https://www.linkedin.com/in/farrel-fajar)  
 📧 **Email**: [farrel.m.fajar@gmail.com](farrel.m.fajar@gmail.com)  
