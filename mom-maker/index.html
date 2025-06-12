@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minutes of Meeting Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Minutes of Meeting Generator</h1>
+    
+    <form id="mom-form">
+      <fieldset>
+        <legend>Meeting Details</legend>
+        
+        <label>Date & Time:
+          <input type="datetime-local" name="datetime" required />
+        </label>
+        
+        <label>Agenda:
+          <input type="text" name="agenda" required />
+        </label>
+
+        <label>Venue:
+          <input type="text" name="venue" required />
+        </label>
+
+        <label>Attendees:
+          <textarea name="attendees" placeholder="List of names or departments"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Meeting Content</legend>
+        
+        <label>Background:
+          <textarea name="background" placeholder="Context or background before the meeting"></textarea>
+        </label>
+
+        <label>Result:
+          <textarea name="result" placeholder="Summary of decisions, discussions, agreements"></textarea>
+        </label>
+
+        <label>Action Plan:
+          <textarea name="actionPlan" placeholder="List of actions with responsibilities, e.g., John to draft spec by June 20"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Prepared By</legend>
+
+        <label>Your Name:
+          <input type="text" name="preparedBy" required />
+        </label>
+
+        <label>Location:
+          <input type="text" name="location" value="Jakarta" />
+        </label>
+
+        <label>Date:
+          <input type="date" name="preparedDate" />
+        </label>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit">Generate Minutes</button>
+        <button type="button" id="saveLocal">Save to Local</button>
+        <button type="button" id="loadLocal">Load Previous</button>
+        <button type="button" id="calendarBtn">Add to Google Calendar</button>
+      </div>
+    </form>
+    
+    <div id="status"></div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="calendar.js"></script>
+</body>
+</html>
