@@ -1,48 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minutes of Meeting Generator</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://app.unpkg.com/docx@3.6.0/files/build/index.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoM Generator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Minutes of Meeting Generator</h1>
-    <form id="mom-form">
-      <fieldset>
-        <legend>Meeting Details</legend>
-        <label>Date & Time: <input type="datetime-local" name="datetime" required /></label>
-        <label>Agenda: <input type="text" name="agenda" required /></label>
-        <label>Venue: <input type="text" name="venue" required /></label>
-        <label>Attendees: <textarea name="attendees"></textarea></label>
-      </fieldset>
-      <fieldset>
-        <legend>Meeting Content</legend>
-        <label>Background: <textarea name="background"></textarea></label>
-        <label>Result: <textarea name="result"></textarea></label>
-        <label>Action Plan: <textarea name="actionPlan"></textarea></label>
-      </fieldset>
-      <fieldset>
-        <legend>Prepared By</legend>
-        <label>Your Name: <input type="text" name="preparedBy" required /></label>
-        <label>Location: <input type="text" name="location" value="Jakarta" /></label>
-        <label>Date: <input type="date" name="preparedDate" /></label>
-      </fieldset>
-      <div class="actions">
-        <button type="submit">Generate Minutes</button>
-        <button type="button" id="saveLocal">Save to Local</button>
-        <button type="button" id="loadLocal">Load Previous</button>
-        <button type="button" id="calendarBtn">Add to Google Calendar</button>
-      </div>
-    </form>
-    <div id="status"></div>
-  </div>
-  <script src="script.js"></script>
-  <script src="calendar.js"></script>
+
+    <div class="container">
+        <h1>Minutes of Meeting Generator</h1>
+        <p>Fill in the details below and export the document as a Word or PDF file.</p>
+
+        <form id="mom-form">
+            <h2>Meeting Details</h2>
+            <label for="parties">Parties Involved:</label>
+            <input type="text" id="parties" value="KCIC, TDM, Fixed Asset, Signaling, Telco, Power, Telkomsel / MJA">
+
+            <label for="date-location">Date and Location:</label>
+            <input type="text" id="date-location" value="Jakarta, 4 June 2025">
+
+            <h2>Core Content</h2>
+            <label for="background">1. Background</label>
+            <textarea id="background" rows="6" placeholder="Enter the context and reasons for the meeting..."></textarea>
+
+            <label for="result">2. Result</label>
+            <textarea id="result" rows="8" placeholder="Detail the outcomes and decisions made..."></textarea>
+
+            <label for="action-plan">3. Action Plan</label>
+            <textarea id="action-plan" rows="8" placeholder="List the specific tasks, owners, and next steps..."></textarea>
+
+            <h2>Approval & Signature</h2>
+            <label for="prep-name">Prepared by (Name):</label>
+            <input type="text" id="prep-name" value="Farrel Mahardhika Fajar">
+
+            <label for="prep-dept">Prepared by (Department):</label>
+            <input type="text" id="prep-dept" value="Technical Design Management Department of KCIC">
+
+            <label for="signature-upload">Upload Signature (Optional, .png or .jpg):</label>
+            <input type="file" id="signature-upload" accept="image/png, image/jpeg">
+
+        </form>
+
+        <div class="button-container">
+            <button id="export-word">Export to Word (.docx)</button>
+            <button id="export-pdf">Export to PDF</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
