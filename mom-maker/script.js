@@ -1,129 +1,171 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("mom-form");
-  const statusDiv = document.getElementById("status");
-  const saveBtn = document.getElementById("saveLocal");
-  const loadBtn = document.getElementById("loadLocal");
+document.addEventListener('DOMContentLoaded', () => {
+    // --- UTILITY FUNCTION ---
+    // Reads an uploaded image file and returns it as a Base64 string
+    const getImageBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            if (!file) {
+                resolve(null); // No file uploaded
+                return;
+            }
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+    
+    // --- MAIN EXPORT FUNCTIONS ---
+    
+    // Function to generate PDF
+    const generatePDF = async () => {
+        // Get form data
+        const parties = document.getElementById('parties').value;
+        const dateLocation = document.getElementById('date-location').value;
+        const background = document.getElementById('background').value;
+        const result = document.getElementById('result').value;
+        const actionPlan = document.getElementById('action-plan').value;
+        const prepName = document.getElementById('prep-name').value;
+        const prepDept = document.getElementById('prep-dept').value;
+        const signatureFile = document.getElementById('signature-upload').files[0];
 
-  function getFormData() {
-    const data = new FormData(form);
-    return Object.fromEntries(data.entries());
-  }
+        const signatureBase64 = await getImageBase64(signatureFile);
 
-  function setFormData(data) {
-    Object.entries(data).forEach(([key, value]) => {
-      const field = form.elements[key];
-      if (field) field.value = value;
-    });
-  }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
-  function saveToLocal() {
-    const data = getFormData();
-    const now = new Date().toISOString();
-    const existing = JSON.parse(localStorage.getItem("momRecords") || "[]");
-    existing.push({ id: now, ...data });
-    localStorage.setItem("momRecords", JSON.stringify(existing));
-    statusDiv.textContent = "Saved to local storage ✅";
-  }
+        let y = 20; // Y-coordinate for placing text
 
-  function loadFromLocal() {
-    const records = JSON.parse(localStorage.getItem("momRecords") || "[]");
-    if (records.length === 0) {
-      statusDiv.textContent = "No records found.";
-      return;
-    }
-    const latest = records[records.length - 1];
-    setFormData(latest);
-    statusDiv.textContent = "Loaded last saved record.";
-  }
+        // Header
+        doc.setFontSize(16).setFont(undefined, 'bold');
+        doc.text('Minutes of Meeting', 105, y, { align: 'center' });
+        y += 15;
 
-  async function generateDocx(data) {
-    const { Document, Packer, Paragraph } = window.docx;
-    const {
-      datetime, agenda, venue, attendees, background,
-      result, actionPlan, preparedBy, location, preparedDate
-    } = data;
+        doc.setFontSize(11).setFont(undefined, 'normal');
+        doc.text(`Parties Involved: ${parties}`, 15, y);
+        y += 7;
+        doc.text(`Date & Location: ${dateLocation}`, 15, y);
+        y += 15;
 
-    const doc = new Document({
-      sections: [{
-        children: [
-          new Paragraph({ text: "Minutes of Meeting", heading: "Title" }),
-          new Paragraph({ text: "" }),
-          new Paragraph({ text: `Date & Time: ${datetime}` }),
-          new Paragraph({ text: `Agenda: ${agenda}` }),
-          new Paragraph({ text: `Venue: ${venue}` }),
-          new Paragraph({ text: `Attendees: ${attendees}` }),
-          new Paragraph({ text: "" }),
-          new Paragraph({ text: "1. Background", heading: "Heading1" }),
-          new Paragraph(background || "(None)"),
-          new Paragraph({ text: "" }),
-          new Paragraph({ text: "2. Result", heading: "Heading1" }),
-          new Paragraph(result || "(None)"),
-          new Paragraph({ text: "" }),
-          new Paragraph({ text: "3. Action Plan", heading: "Heading1" }),
-          new Paragraph(actionPlan || "(None)"),
-          new Paragraph({ text: "" }),
-          new Paragraph({
-            text: "These minutes are made in utmost faith, the content has been approved as guidelines for works."
-          }),
-          new Paragraph({ text: "" }),
-          new Paragraph({
-            text: "Prepared by Technical Design Management Department of KCIC"
-          }),
-          new Paragraph({ text: preparedBy }),
-          new Paragraph({ text: `${location}, ${preparedDate}` }),
-        ]
-      }]
-    });
+        // Body
+        doc.setFontSize(12).setFont(undefined, 'bold');
+        doc.text('1. Background', 15, y);
+        y += 7;
+        doc.setFontSize(11).setFont(undefined, 'normal');
+        doc.text(background, 15, y, { maxWidth: 180 });
+        y = doc.previousAutoTable ? doc.previousAutoTable.finalY + 15 : y + 30; // Adjust y after text block
 
-    const blob = await Packer.toBlob(doc);
-    saveAs(blob, `MoM_${agenda.replace(/\s+/g, "_")}.docx`);
-  }
+        doc.setFontSize(12).setFont(undefined, 'bold');
+        doc.text('2. Result', 15, y);
+        y += 7;
+        doc.setFontSize(11).setFont(undefined, 'normal');
+        doc.text(result, 15, y, { maxWidth: 180 });
+        y = doc.previousAutoTable ? doc.previousAutoTable.finalY + 15 : y + 40;
 
-  function generatePDF(data) {
-    const {
-      datetime, agenda, venue, attendees, background,
-      result, actionPlan, preparedBy, location, preparedDate
-    } = data;
+        doc.setFontSize(12).setFont(undefined, 'bold');
+        doc.text('3. Action Plan', 15, y);
+        y += 7;
+        doc.setFontSize(11).setFont(undefined, 'normal');
+        doc.text(actionPlan, 15, y, { maxWidth: 180 });
+        y = doc.previousAutoTable ? doc.previousAutoTable.finalY + 20 : y + 40;
 
-    const docDefinition = {
-      content: [
-        { text: 'Minutes of Meeting', style: 'header' },
-        { text: '\n' },
-        { text: `Date & Time: ${datetime}`, style: 'info' },
-        { text: `Agenda: ${agenda}`, style: 'info' },
-        { text: `Venue: ${venue}`, style: 'info' },
-        { text: `Attendees: ${attendees}`, style: 'info' },
-        { text: '\n' },
-        { text: '1. Background', style: 'subheader' },
-        { text: background || '(None)', margin: [0, 0, 0, 10] },
-        { text: '2. Result', style: 'subheader' },
-        { text: result || '(None)', margin: [0, 0, 0, 10] },
-        { text: '3. Action Plan', style: 'subheader' },
-        { text: actionPlan || '(None)', margin: [0, 10, 0, 10] },
-        { text: "These minutes are made in utmost faith...", italics: true, margin: [0, 10, 0, 10] },
-        { text: "Prepared by Technical Design Management Department of KCIC", margin: [0, 10, 0, 0] },
-        { text: preparedBy },
-        { text: `${location}, ${preparedDate}` }
-      ],
-      styles: {
-        header: { fontSize: 20, bold: true, alignment: 'center' },
-        subheader: { fontSize: 14, bold: true, margin: [0, 10, 0, 5] },
-        info: { fontSize: 11 }
-      },
-      defaultStyle: { fontSize: 11 },
-      pageMargins: [40, 60, 40, 60]
+        // Approval Section
+        y = y > 220 ? 220 : y; // Move to bottom part of the page if too low
+        doc.text('These minutes are made in utmost faith, the content has been approved as guidelines for works.', 15, y);
+        y += 7;
+        doc.text(`Prepared by: ${prepDept}`, 15, y);
+        y += 15;
+        
+        if (signatureBase64) {
+            doc.addImage(signatureBase64, 'PNG', 15, y, 40, 20);
+            y += 25;
+        }
+
+        doc.text(prepName, 15, y);
+
+        // Save the PDF
+        doc.save('minutes-of-meeting.pdf');
     };
 
-    pdfMake.createPdf(docDefinition).download(`MoM_${agenda.replace(/\s+/g, "_")}.pdf`);
-  }
+    // Function to generate Word Doc
+    const generateWord = async () => {
+        // Get form data (same as PDF)
+        const parties = document.getElementById('parties').value;
+        const dateLocation = document.getElementById('date-location').value;
+        const background = document.getElementById('background').value;
+        const result = document.getElementById('result').value;
+        const actionPlan = document.getElementById('action-plan').value;
+        const prepName = document.getElementById('prep-name').value;
+        const prepDept = document.getElementById('prep-dept').value;
+        const signatureFile = document.getElementById('signature-upload').files[0];
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const data = getFormData();
-    await generateDocx(data);
-    generatePDF(data);
-  });
+        const signatureBase64 = await getImageBase64(signatureFile);
+        let signatureBuffer = null;
+        if (signatureBase64) {
+            // Convert base64 to ArrayBuffer for the docx library
+            const res = await fetch(signatureBase64);
+            signatureBuffer = await res.arrayBuffer();
+        }
 
-  saveBtn.addEventListener("click", saveToLocal);
-  loadBtn.addEventListener("click", loadFromLocal);
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, ImageRun } = docx;
+
+        const children = [
+            new Paragraph({
+                children: [new TextRun({ text: 'Minutes of Meeting', bold: true, size: 32 })],
+                alignment: AlignmentType.CENTER,
+            }),
+            new Paragraph({ text: `Parties Involved: ${parties}`, style: "Normal" }),
+            new Paragraph({ text: `Date & Location: ${dateLocation}`, style: "Normal" }),
+            new Paragraph({ text: '' }), // Spacer
+            new Paragraph({
+                children: [new TextRun({ text: '1. Background', bold: true, size: 24 })],
+                heading: HeadingLevel.HEADING_2,
+            }),
+            new Paragraph({ text: background }),
+            new Paragraph({ text: '' }),
+            new Paragraph({
+                children: [new TextRun({ text: '2. Result', bold: true, size: 24 })],
+                heading: HeadingLevel.HEADING_2,
+            }),
+            new Paragraph({ text: result }),
+            new Paragraph({ text: '' }),
+            new Paragraph({
+                children: [new TextRun({ text: '3. Action Plan', bold: true, size: 24 })],
+                heading: HeadingLevel.HEADING_2,
+            }),
+            new Paragraph({ text: actionPlan }),
+            new Paragraph({ text: '' }), new Paragraph({ text: '' }), // Spacers
+            new Paragraph({ text: 'These minutes are made in utmost faith, the content has been approved as guidelines for works.' }),
+            new Paragraph({ text: `Prepared by: ${prepDept}` }),
+            new Paragraph({ text: '' }),
+        ];
+
+        // Add signature if it exists
+        if (signatureBuffer) {
+            children.push(new Paragraph({
+                children: [new ImageRun({
+                    data: signatureBuffer,
+                    transformation: { width: 160, height: 80 },
+                })]
+            }));
+        }
+
+        children.push(new Paragraph({ text: prepName }));
+
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: children,
+            }],
+        });
+
+        // Save the Word file
+        Packer.toBlob(doc).then(blob => {
+            saveAs(blob, "minutes-of-meeting.docx");
+        });
+    };
+
+
+    // --- EVENT LISTENERS ---
+    document.getElementById('export-pdf').addEventListener('click', generatePDF);
+    document.getElementById('export-word').addEventListener('click', generateWord);
 });
