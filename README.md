@@ -13,6 +13,88 @@ I am a **data-driven strategist** with a background in Biomedical & Electrical E
 
 ---
 
+## 🚀 Projects  
+
+### 1. Procurement Analysis  
+
+**About**: This report provides a comprehensive analysis of player behavior in an undisclosed mobile game, identifying player retention, session length, and daily player patterns.
+
+**Tools**: Python, Power BI
+
+**Business Question**: 
+* *What are the main issues or risks in the procurement process that should be prioritized, based on the trends in total purchases and total quantity from 2013 to 2016? Please provide your analysis and findings.*	
+* *Highlight and explain any outliers or significant spikes in total purchases. What are the possible causes? Include your hypothesis for these anomalies.*
+* *Present actionable findings and recommendations for the management meeting to help optimize procurement spending in the coming years.*																			
+
+<img width="2551" height="1442" alt="image" src="https://github.com/user-attachments/assets/77a7d5b2-e932-4b6f-af4d-e20e5d58bc82" />
+
+**[Read the Report →](https://github.com/FarrelMFajar/Projects/tree/a4d982907da952be8d8d47dfec05f4eb143c14f0/%5BPython%2C%20Power%20BI%5D%20Procurement%20Spending%20Analysis)**
+
+
+---
+
+### 2. Daily Game Analytics  
+
+**About**: This report provides a comprehensive analysis of player behavior in an undisclosed mobile game, identifying player retention, session length, and daily player patterns.
+
+**Tools**: SQL, Google Sheets, Google Slides
+
+**Business Question**: *How can player behavior and game mechanics be optimized to improve retention and monetization?*  
+
+[<img src="images/01_gamedatananalytics.png">](https://docs.google.com/presentation/d/e/2PACX-1vT461tTEEk4SbjUZKrIXnpCsTqfjlsU6NuRkpZcQ4PBQBPJpPteckU5fzRmKF8GldH7pGDr_mGJCjBX/pub?start=true&loop=false&delayms=10000)
+**[Read the Report →](https://docs.google.com/presentation/d/e/2PACX-1vT461tTEEk4SbjUZKrIXnpCsTqfjlsU6NuRkpZcQ4PBQBPJpPteckU5fzRmKF8GldH7pGDr_mGJCjBX/pub?start=true&loop=false&delayms=10000)**  
+
+
+---
+
+### **3. Employee Presence Analytics**  
+
+**About**: This Power BI dashboard provides a comprehensive analysis of employee presence insights, helping management monitor work attendance, work-from-office (WFO) and work-from-home (WFH) trends, sick leave patterns, and annual leave usage.
+
+**Tools**: Excel, Power BI  
+
+**Business Question**: *Do public holidays influence employee leave requests?*  
+
+![Image](https://github.com/user-attachments/assets/62608acf-fb7d-4b83-8427-d31921a5e508)
+
+---
+
+### **4. Workplace Incident Analysis**  
+
+**About**: This report analyzes workplace incidents based on the OSHA accident and injury dataset (2015-2017). It includes trends, injury severity, affected body parts, and suggested safety measures.
+
+**Tools**: SQL, Excel  
+
+**Business Question**: *Which body parts are most frequently injured in workplace incidents, and how can safety measures be improved based on injury data?*  
+
+
+[<img src="images/03_workplace.png">](https://github.com/FarrelMFajar/Projects/blob/dc99445cdf42b87e68c23b18217305fb69ef6784/%5BSQL%5D%20%5BMS%20Excel%5D%20Workplace%20Incident%20Analysis/Workplace%20Incident%20Analysis%20Report.pdf)
+**[Read the Report →](https://github.com/FarrelMFajar/Projects/blob/dc99445cdf42b87e68c23b18217305fb69ef6784/%5BSQL%5D%20%5BMS%20Excel%5D%20Workplace%20Incident%20Analysis/Workplace%20Incident%20Analysis%20Report.pdf)**  
+
+---
+
+### **5. Bus Ridership Segmentation**  
+
+**About**: The customer segmentation project focuses on analyzing student passengers' travel behavior by segmenting them based on average spending and travel frequency, helping decision makers in proposing optimized school bus routes in the advocation of free school bus program.
+
+**Tools**: Python, Tableau  
+
+**Business Question**: *How can student travel patterns inform route optimization?*  
+
+[<img src="images/04_busridership.png">](https://public.tableau.com/app/profile/farrel.fajar/viz/TransjakartaStory-StudentsNeedBus/Story1)
+**[Explore the Tableau live report →](https://github.com/FarrelMFajar/Projects/blob/dc99445cdf42b87e68c23b18217305fb69ef6784/%5BSQL%5D%20%5BMS%20Excel%5D%20Workplace%20Incident%20Analysis/Workplace%20Incident%20Analysis%20Report.pdf)**
+---
+
+### **6. COVID-19 Cases Dashboard**  
+
+**Tools**: Power BI  
+
+**About**: This dashboard displays COVID-19 cases in Jakarta based on open-access data, identifying trends in hospitalizations, and case-to-fatality rate within one year timeframe
+[<img src="images/05_covid.png">](https://github.com/FarrelMFajar/Projects/blob/a1972032b460905fe523e7ba5f1670b0041c339d/%5BSQL%5D%20Covid-19%20Data%20Exploration/COVID%20Dashboard.pbix)
+**[Explore Live Dashboard →](https://github.com/FarrelMFajar/Projects/blob/a1972032b460905fe523e7ba5f1670b0041c339d/%5BSQL%5D%20Covid-19%20Data%20Exploration/COVID%20Dashboard.pbix)**  
+
+---
+
 ## 💼 Professional Experience  
 
 ### **Technical & Design Management - Project Data Analyst**  
@@ -28,56 +110,6 @@ I am a **data-driven strategist** with a background in Biomedical & Electrical E
 - **Efficiency Gains**: Implemented a Google Sheets search feature using `QUERY()` and `VLOOKUP()` functions, boosting document retrieval speed by **60%**.  
 
 ---
-## 🚀 Projects  
-
-### 1. Daily Game Analytics  
-**About**: This report provides a comprehensive analysis of player behavior in an undisclosed mobile game, identifying player retention, session length, and daily player patterns.
-**Tools**: SQL, Google Sheets, Google Slides
-**Business Question**: *How can player behavior and game mechanics be optimized to improve retention and monetization?*  
-
-[<img src="images/01_gamedatananalytics.png">](https://docs.google.com/presentation/d/e/2PACX-1vT461tTEEk4SbjUZKrIXnpCsTqfjlsU6NuRkpZcQ4PBQBPJpPteckU5fzRmKF8GldH7pGDr_mGJCjBX/pub?start=true&loop=false&delayms=10000)
-**[Read the Report →](https://docs.google.com/presentation/d/e/2PACX-1vT461tTEEk4SbjUZKrIXnpCsTqfjlsU6NuRkpZcQ4PBQBPJpPteckU5fzRmKF8GldH7pGDr_mGJCjBX/pub?start=true&loop=false&delayms=10000)**  
-
-
----
-
-### **2. Employee Presence Analytics**  
-**About**: This Power BI dashboard provides a comprehensive analysis of employee presence insights, helping management monitor work attendance, work-from-office (WFO) and work-from-home (WFH) trends, sick leave patterns, and annual leave usage.
-**Tools**: Excel, Power BI  
-**Business Question**: *Do public holidays influence employee leave requests?*  
-
-![Image](https://github.com/user-attachments/assets/62608acf-fb7d-4b83-8427-d31921a5e508)
-
----
-
-### **3. Workplace Incident Analysis**  
-**About**: This report analyzes workplace incidents based on the OSHA accident and injury dataset (2015-2017). It includes trends, injury severity, affected body parts, and suggested safety measures.
-**Tools**: SQL, Excel  
-**Business Question**: *Which body parts are most frequently injured in workplace incidents, and how can safety measures be improved based on injury data?*  
-
-
-[<img src="images/03_workplace.png">](https://github.com/FarrelMFajar/Projects/blob/dc99445cdf42b87e68c23b18217305fb69ef6784/%5BSQL%5D%20%5BMS%20Excel%5D%20Workplace%20Incident%20Analysis/Workplace%20Incident%20Analysis%20Report.pdf)
-**[Read the Report →](https://github.com/FarrelMFajar/Projects/blob/dc99445cdf42b87e68c23b18217305fb69ef6784/%5BSQL%5D%20%5BMS%20Excel%5D%20Workplace%20Incident%20Analysis/Workplace%20Incident%20Analysis%20Report.pdf)**  
-
----
-
-### **4. Bus Ridership Segmentation**  
-**About**: The customer segmentation project focuses on analyzing student passengers' travel behavior by segmenting them based on average spending and travel frequency, helping decision makers in proposing optimized school bus routes in the advocation of free school bus program.
-**Tools**: Python, Tableau  
-**Business Question**: *How can student travel patterns inform route optimization?*  
-
-[<img src="images/04_busridership.png">](https://public.tableau.com/app/profile/farrel.fajar/viz/TransjakartaStory-StudentsNeedBus/Story1)
-**[Explore the Tableau live report →](https://github.com/FarrelMFajar/Projects/blob/dc99445cdf42b87e68c23b18217305fb69ef6784/%5BSQL%5D%20%5BMS%20Excel%5D%20Workplace%20Incident%20Analysis/Workplace%20Incident%20Analysis%20Report.pdf)**
----
-
-### **5. COVID-19 Cases Dashboard**  
-**Tools**: Power BI  
-**About**: This dashboard displays COVID-19 cases in Jakarta based on open-access data, identifying trends in hospitalizations, and case-to-fatality rate within one year timeframe
-[<img src="images/05_covid.png">](https://github.com/FarrelMFajar/Projects/blob/a1972032b460905fe523e7ba5f1670b0041c339d/%5BSQL%5D%20Covid-19%20Data%20Exploration/COVID%20Dashboard.pbix)
-**[Explore Live Dashboard →](https://github.com/FarrelMFajar/Projects/blob/a1972032b460905fe523e7ba5f1670b0041c339d/%5BSQL%5D%20Covid-19%20Data%20Exploration/COVID%20Dashboard.pbix)**  
-
----
-
 ## 🎓 Education & Certifications  
 - **IELTS Band 8** (IDP, 2023)  
 - **Meta Data Analyst Professional Certificate** (2023)  
