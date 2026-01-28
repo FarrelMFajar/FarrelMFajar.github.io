@@ -26,7 +26,7 @@ I am a **data-driven strategist** with a background in Biomedical & Electrical E
 * *Highlight and explain any outliers or significant spikes in total purchases. What are the possible causes? Include your hypothesis for these anomalies.*
 * *Present actionable findings and recommendations for the management meeting to help optimize procurement spending in the coming years.*																			
 
-<img width="2551" height="1442" alt="image" src="https://github.com/user-attachments/assets/77a7d5b2-e932-4b6f-af4d-e20e5d58bc82" />
+<img alt="image" src="https://github.com/user-attachments/assets/77a7d5b2-e932-4b6f-af4d-e20e5d58bc82" />
 
 **[Read the Report →](https://github.com/FarrelMFajar/Projects/tree/a4d982907da952be8d8d47dfec05f4eb143c14f0/%5BPython%2C%20Power%20BI%5D%20Procurement%20Spending%20Analysis)**
 
