@@ -26,7 +26,8 @@ I am a **data-driven strategist** with a background in Biomedical & Electrical E
 * *How many trainsets can we cut before non-operating hours fail to cover our required maintenance window?*
 * *What's the passenger/revenue trade-off of reducing service in a specific origin or time-of-day band (e.g., late-night Tegalluar departures)*
 
-<img width="1175" height="902" alt="image" src="https://github.com/user-attachments/assets/da331315-124d-4c00-9120-d74bc9d12252" />
+[<img alt="image" src="https://github.com/user-attachments/assets/da331315-124d-4c00-9120-d74bc9d12252" />](https://farrelmfajar.github.io/revenue-loss-estimator/)
+**[Try me! →](https://farrelmfajar.github.io/revenue-loss-estimator/)** 
 
 
 ### 1. Procurement Analysis  
