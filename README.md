@@ -13,7 +13,21 @@ I am a **data-driven strategist** with a background in Biomedical & Electrical E
 
 ---
 
-## 🚀 Projects  
+## 🚀 Projects 
+
+### 1. Revenue Loss Estimator
+
+**About**: This interactive webapp displays daily average (or total) passengers by trainset from historical passenger data within specific month range, as well as calculates the estimated loss of passenger and revenue for user-defined idle time and generates print-ready time table. 
+
+**Tools**: HTML, Claude Code, Barron's Writing for IELTS
+
+**Business Questions**:
+* *If we impose a mandatory maintenance/downtime window, which time slot minimizes revenue loss?*
+* *How many trainsets can we cut before non-operating hours fail to cover our required maintenance window?*
+* *What's the passenger/revenue trade-off of reducing service in a specific origin or time-of-day band (e.g., late-night Tegalluar departures)*
+
+<img width="1175" height="902" alt="image" src="https://github.com/user-attachments/assets/da331315-124d-4c00-9120-d74bc9d12252" />
+
 
 ### 1. Procurement Analysis  
 
