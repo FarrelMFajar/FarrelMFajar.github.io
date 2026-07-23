@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -186,10 +186,10 @@ table.sched td.tn{white-space:nowrap; text-align:left;}
 
 <div id="panel-schedule" class="tabPanel">
   <div style="margin-top:14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-    <button id="genSched" style="font-size:13px; font-weight:600; padding:9px 16px; border-radius:8px;">Buat / Perbarui Jadwal Keberangkatan</button>
-    <button id="printSched" style="font-size:13px; padding:9px 14px; border-radius:8px;">Cetak / PDF</button>
-    <button id="savePng" style="font-size:13px; padding:9px 14px; border-radius:8px;">Simpan ke PNG</button>
-    <span style="font-size:12px; color:var(--text-muted);">Menghasilkan jadwal dari trainset yang beroperasi (seleksi saat ini).</span>
+    <button id="genSched" style="font-size:13px; font-weight:600; padding:9px 16px; border-radius:8px;">Generate / Update Departure Schedule</button>
+    <button id="printSched" style="font-size:13px; padding:9px 14px; border-radius:8px;">Print / PDF</button>
+    <button id="savePng" style="font-size:13px; padding:9px 14px; border-radius:8px;">Save as PNG</button>
+    <span style="font-size:12px; color:var(--text-muted);">Generates the schedule from the trainsets currently operating (current selection).</span>
   </div>
   <div id="schedWrap" style="display:none; margin-top:14px;"></div>
 </div>
@@ -447,7 +447,7 @@ function drawScheduleCanvas(){
   x.fillStyle='#9a9a9a'; x.textAlign='right'; x.font='400 11px system-ui,Arial'; x.fillText('Update '+stampDisplay(),W-pad,H-pad+4);
   return cv;
 }
-function savePNG(){ const cv=drawScheduleCanvas(); cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='jadwal-whoosh-'+stampStr()+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500);}); }
+function savePNG(){ const cv=drawScheduleCanvas(); cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='whoosh-schedule-'+stampStr()+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500);}); }
 // ---------- aggregated CSV export ----------
 function csvCell(v){const s=String(v); return /[",\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;}
 function exportAggregatedCSV(){
@@ -529,12 +529,12 @@ function applyParsedData(data,days){
 function importCSVText(text){
   const r=parseCSVIntoData(text);
   if(!r.ok){
-    const msgs={empty:'CSV kosong.', columns:'CSV harus memiliki kolom: train_no, origin, destination, departure_date, departure_time, count_of_nett_sales', 'no-trains':'Tidak ada trainset valid ditemukan (perlu baris dengan origin Halim/Tegalluar untuk menentukan jadwal keberangkatan).'};
-    alert(msgs[r.reason]||'Gagal memuat CSV.'); return;
+    const msgs={empty:'The CSV file is empty.', columns:'The CSV must have these columns: train_no, origin, destination, departure_date, departure_time, count_of_nett_sales', 'no-trains':'No valid trainsets were found (needs at least one row with origin Halim/Tegalluar to determine the departure schedule).'};
+    alert(msgs[r.reason]||'Failed to load the CSV.'); return;
   }
   applyParsedData(r.data, r.days);
   setDataStatus('Loaded '+DATA.length+' trainsets from imported CSV.', false);
-  alert('CSV berhasil dimuat: '+DATA.length+' trainset.');
+  alert('CSV loaded successfully: '+DATA.length+' trainsets.');
 }
 function setDataStatus(msg, isWarning){
   const el=$('dataStatus');
@@ -542,17 +542,30 @@ function setDataStatus(msg, isWarning){
   el.style.color = isWarning? WIN_RED : 'var(--text-secondary)';
   el.style.background = isWarning? 'rgba(229,72,77,.08)' : 'var(--surface-1)';
 }
+const BASE_CSV_REMOTE_URL='https://raw.githubusercontent.com/FarrelMFajar/FarrelMFajar.github.io/refs/heads/main/revenue-loss-estimator/assets/whoosh-passenger-data-2025-base.csv';
+async function tryLoadCSV(url,{cache}={}){
+  const res=await fetch(url,cache?{cache}:{});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const text=await res.text();
+  const r=parseCSVIntoData(text);
+  if(!r.ok) throw new Error(r.reason);
+  return r;
+}
 async function autoLoadBaseCSV(){
   try{
-    const res=await fetch('data/whoosh-passenger-data-2025-base.csv',{cache:'no-store'});
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const text=await res.text();
-    const r=parseCSVIntoData(text);
-    if(!r.ok) throw new Error(r.reason);
+    const r=await tryLoadCSV('data/whoosh-passenger-data-2025-base.csv',{cache:'no-store'});
     applyParsedData(r.data, r.days);
     setDataStatus('Loaded '+DATA.length+' trainsets from data/whoosh-passenger-data-2025-base.csv.', false);
-  }catch(err){
-    setDataStatus('No data loaded — could not fetch data/whoosh-passenger-data-2025-base.csv (this is expected when opening index.html directly via file://, since browsers block local file fetches; serve it over http(s) instead). Use "Import CSV" above to load a dataset manually.', true);
+    return;
+  }catch(localErr){
+    // local relative fetch failed (typically file:// blocking it) — fall back to the GitHub raw copy
+    try{
+      const r=await tryLoadCSV(BASE_CSV_REMOTE_URL);
+      applyParsedData(r.data, r.days);
+      setDataStatus('Loaded '+DATA.length+' trainsets from GitHub (local data/ file was not reachable).', false);
+    }catch(remoteErr){
+      setDataStatus('No data loaded — could not fetch the base CSV locally or from GitHub. Use "Import CSV" above to load a dataset manually.', true);
+    }
   }
 }
 // ---------- interaction ----------
@@ -616,7 +629,7 @@ $('csvImportBtn').addEventListener('click',()=>$('csvFile').click());
 $('csvFile').addEventListener('change',e=>{
   const f=e.target.files[0]; if(!f) return;
   const reader=new FileReader();
-  reader.onload=ev=>{ try{ importCSVText(ev.target.result); } catch(err){ alert('Gagal membaca CSV: '+err.message); } };
+  reader.onload=ev=>{ try{ importCSVText(ev.target.result); } catch(err){ alert('Failed to read the CSV: '+err.message); } };
   reader.readAsText(f);
   e.target.value='';
 });
