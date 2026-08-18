@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Land Net Price Calculator</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --ink:#12161c; --muted:#5d6875;
+    --line:#e2e6ec; --accent:#1d4ed8; --seller:#0f766e; --broker:#a16207; --buyer:#9333ea;
+    --code:#f1f3f7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1216; --card:#171b21; --ink:#e8ecf1; --muted:#9aa5b1;
+      --line:#2a3038; --accent:#7aa2ff; --seller:#4dd4c0; --broker:#e3b341; --buyer:#c084fc;
+      --code:#11151a;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:24px 16px 64px;background:var(--bg);color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 24px;font-size:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 20px;margin-bottom:18px}
+  .card h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .row{display:flex;flex-wrap:wrap;gap:12px}
+  .field{flex:1 1 220px;min-width:200px}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+  label .tag{display:inline-block;width:18px;color:var(--accent)}
+  label .hint{font-weight:400;color:var(--muted)}
+  .inputbox{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;background:var(--card);overflow:hidden}
+  .inputbox:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+  .aff{padding:0 9px;color:var(--muted);font-size:13px;background:var(--code);align-self:stretch;display:flex;align-items:center}
+  input[type=text]{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);
+    padding:9px 10px;font:15px/1 inherit;text-align:right;font-variant-numeric:tabular-nums}
+  .note{color:var(--muted);font-size:12px;margin-top:5px}
+  .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .res{border:1px solid var(--line);border-radius:10px;padding:14px}
+  .res .who{font-size:13px;font-weight:700;margin-bottom:2px}
+  .res .amt{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .res .fx{font-size:11.5px;color:var(--muted);margin-top:7px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-word}
+  .res.f{border-left:4px solid var(--seller)} .res.f .amt{color:var(--seller)}
+  .res.g{border-left:4px solid var(--broker)} .res.g .amt{color:var(--broker)}
+  .res.h{border-left:4px solid var(--buyer)}  .res.h .amt{color:var(--buyer)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td{padding:7px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td.k{color:var(--muted);width:38%}
+  td.v{text-align:right;font-variant-numeric:tabular-nums}
+  code{background:var(--code);padding:2px 6px;border-radius:5px;font-size:12.5px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .formulas li{margin-bottom:9px}
+  .formulas ul{margin:0;padding-left:18px}
+  .scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Land Net Price Calculator</h1>
+  <p class="sub">Enter the five inputs — everything below recalculates live, with the formula shown next to each result.</p>
+
+  <div class="card">
+    <h2>Inputs</h2>
+    <div class="row">
+      <div class="field">
+        <label for="A"><span class="tag">A</span>Land price <span class="hint">per m²</span></label>
+        <div class="inputbox"><span class="aff">Rp</span><input type="text" id="A" inputmode="decimal" value="5.000.000"></div>
+        <div class="note" id="A_r">&nbsp;</div>
+      </div>
+      <div class="field">
+        <label for="B"><span class="tag">B</span>Land area</label>
+        <div class="inputbox"><input type="text" id="B" inputmode="decimal" value="200"><span class="aff">m²</span></div>
+        <div class="note" id="B_r">&nbsp;</div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div class="field">
+        <label for="C"><span class="tag">C</span>Commission <span class="hint">broker</span></label>
+        <div class="inputbox"><input type="text" id="C" inputmode="decimal" value="2,5"><span class="aff">%</span></div>
+        <div class="note">Deducted from the seller's side.</div>
+      </div>
+      <div class="field">
+        <label for="D"><span class="tag">D</span>PPh <span class="hint">seller's tax</span></label>
+        <div class="inputbox"><input type="text" id="D" inputmode="decimal" value="2,5"><span class="aff">%</span></div>
+        <div class="note">Reduced from the seller's net.</div>
+      </div>
+      <div class="field">
+        <label for="E"><span class="tag">E</span>BPHTB <span class="hint">buyer's tax</span></label>
+        <div class="inputbox"><input type="text" id="E" inputmode="decimal" value="5"><span class="aff">%</span></div>
+        <div class="note">Paid by the buyer on top.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <h2>Results</h2>
+    <div class="results">
+      <div class="res f">
+        <div class="who">F · Seller gets</div>
+        <div class="amt" id="F">–</div>
+        <div class="fx" id="F_fx"></div>
+      </div>
+      <div class="res g">
+        <div class="who">G · Broker gets</div>
+        <div class="amt" id="G">–</div>
+        <div class="fx" id="G_fx"></div>
+      </div>
+      <div class="res h">
+        <div class="who">H · Buyer pays</div>
+        <div class="amt" id="H">–</div>
+        <div class="fx" id="H_fx"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Breakdown</h2>
+    <div class="scroll">
+      <table>
+        <tr><td class="k">Gross land value (A × B)</td><td class="v" id="b_gross">–</td></tr>
+        <tr><td class="k">− Broker commission (C)</td><td class="v" id="b_comm">–</td></tr>
+        <tr><td class="k">= After commission</td><td class="v" id="b_after">–</td></tr>
+        <tr><td class="k" id="b_pph_k">− PPh (D)</td><td class="v" id="b_pph">–</td></tr>
+        <tr><td class="k"><strong>= Seller receives (F)</strong></td><td class="v" id="b_F">–</td></tr>
+        <tr><td class="k">+ BPHTB (E), buyer's side</td><td class="v" id="b_bphtb">–</td></tr>
+        <tr><td class="k"><strong>= Buyer pays (H)</strong></td><td class="v" id="b_H">–</td></tr>
+        <tr><td class="k">Gap between what the buyer pays and the seller keeps</td><td class="v" id="b_gap">–</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card formulas">
+    <h2>Formulas used</h2>
+    <ul>
+      <li><strong>F · Seller gets</strong> = <code>A × B × (1 − C) × (1 − D)</code><br>
+        <span class="note">Gross value, less the broker's commission, less PPh.</span></li>
+      <li><strong>G · Broker gets</strong> = <code>A × B × C</code><br>
+        <span class="note">Commission on the gross land value.</span></li>
+      <li><strong>H · Buyer pays</strong> = <code>A × B × (1 + E)</code><br>
+        <span class="note">Gross value plus BPHTB paid on top.</span></li>
+    </ul>
+    <p class="note" style="margin-top:14px">Percentages C, D and E are entered as whole percents and divided by 100 inside the formulas — enter <code>2,5</code> for 2.5%. Both <code>.</code> and <code>,</code> are accepted as the decimal mark, and thousand separators are ignored.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var ids = ['A','B','C','D','E'];
+  var rp = new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0});
+  var num = new Intl.NumberFormat('id-ID',{maximumFractionDigits:2});
+  var fac = new Intl.NumberFormat('id-ID',{maximumFractionDigits:6});
+
+  // Accepts "5.000.000", "5,000,000", "5000000.5", "2,5" -> Number
+  function parse(s){
+    s = String(s).replace(/[^0-9.,-]/g,'');
+    if(!s) return 0;
+    var lastDot = s.lastIndexOf('.'), lastComma = s.lastIndexOf(',');
+    var dec = Math.max(lastDot,lastComma);
+    var intPart, fracPart = '';
+    if(dec > -1){
+      var tail = s.slice(dec+1);
+      // A separator followed by exactly 3 digits and nothing else is a thousands group.
+      if(/^\d{3}$/.test(tail) && (s.match(/[.,]/g)||[]).length > 1){ intPart = s; }
+      else if(/^\d{3}$/.test(tail) && /^[0-9-]+$/.test(s.slice(0,dec)) && s.slice(0,dec).replace('-','').length <= 3 && (s.match(/[.,]/g)||[]).length === 1 && s[dec] === '.'){ intPart = s; }
+      else { intPart = s.slice(0,dec); fracPart = tail.replace(/[^0-9]/g,''); }
+    } else { intPart = s; }
+    var neg = intPart.indexOf('-') === 0;
+    intPart = intPart.replace(/[^0-9]/g,'');
+    var v = Number((intPart||'0') + (fracPart ? '.'+fracPart : ''));
+    if(!isFinite(v)) v = 0;
+    return neg ? -v : v;
+  }
+
+  function money(v){ return rp.format(v).replace(/\s/g,' '); }
+  function pct(v){ return num.format(v) + '%'; }
+
+  function calc(){
+    var A = parse(document.getElementById('A').value);
+    var B = parse(document.getElementById('B').value);
+    var Cp = parse(document.getElementById('C').value), C = Cp/100;
+    var Dp = parse(document.getElementById('D').value), D = Dp/100;
+    var Ep = parse(document.getElementById('E').value), E = Ep/100;
+
+    var gross = A * B;
+    var comm  = gross * C;
+    var after = gross * (1 - C);
+    var F     = after * (1 - D);
+    var pph   = after - F;
+    var G     = comm;
+    var bphtb = gross * E;
+    var H     = gross * (1 + E);
+
+    document.getElementById('A_r').textContent = A ? money(A) + ' / m²' : ' ';
+    document.getElementById('B_r').textContent = B ? num.format(B) + ' m²' : ' ';
+
+    document.getElementById('F').textContent = money(F);
+    document.getElementById('G').textContent = money(G);
+    document.getElementById('H').textContent = money(H);
+
+    document.getElementById('F_fx').textContent =
+      money(A) + ' × ' + num.format(B) + ' × (1 − ' + fac.format(C) + ') × (1 − ' + fac.format(D) + ')';
+    document.getElementById('G_fx').textContent =
+      money(A) + ' × ' + num.format(B) + ' × ' + fac.format(C);
+    document.getElementById('H_fx').textContent =
+      money(A) + ' × ' + num.format(B) + ' × (1 + ' + fac.format(E) + ')';
+
+    document.getElementById('b_pph_k').textContent = '− PPh (' + pct(Dp) + ')';
+
+    document.getElementById('b_gross').textContent = money(gross);
+    document.getElementById('b_comm').textContent  = '− ' + money(comm) + '  (' + pct(Cp) + ')';
+    document.getElementById('b_after').textContent = money(after);
+    document.getElementById('b_pph').textContent   = '− ' + money(pph);
+    document.getElementById('b_F').textContent     = money(F);
+    document.getElementById('b_bphtb').textContent = '+ ' + money(bphtb) + '  (' + pct(Ep) + ')';
+    document.getElementById('b_H').textContent     = money(H);
+    document.getElementById('b_gap').textContent   = money(H - F);
+  }
+
+  ids.forEach(function(id){
+    document.getElementById(id).addEventListener('input', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
